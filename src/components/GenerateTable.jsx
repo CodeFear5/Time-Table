@@ -4,35 +4,17 @@ import { useNavigate } from "react-router-dom";
 const GenerateTable = () => {
   const [semester, setSemester] = useState("");
   const [section, setSection] = useState("");
-  const [selectedTeachers, setSelectedTeachers] = useState([]);
   const navigate = useNavigate();
-
-  // Predefined list of teachers
-  const teachersList = [
-    "Mr. John Doe",
-    "Ms. Jane Smith",
-    "Dr. Emily White",
-    "Prof. Richard Brown",
-    "Mrs. Linda Black",
-  ];
-
-  const handleTeacherSelection = (teacher) => {
-    if (selectedTeachers.includes(teacher)) {
-      setSelectedTeachers(selectedTeachers.filter((t) => t !== teacher));
-    } else {
-      setSelectedTeachers([...selectedTeachers, teacher]);
-    }
-  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (semester && section && selectedTeachers.length > 0) {
+    if (semester && section) {
       // Navigate to the next page with selected data
       navigate("/create-table", {
-        state: { semester, section, selectedTeachers },
+        state: { semester, section },
       });
     } else {
-      alert("Please fill all the fields and select at least one teacher.");
+      alert("Please fill all the fields.");
     }
   };
 
@@ -78,30 +60,6 @@ const GenerateTable = () => {
               <option key={sec} value={sec}>{`Section ${sec}`}</option>
             ))}
           </select>
-        </div>
-
-        {/* Teacher Selection */}
-        <div>
-          <label className="block text-gray-700 font-semibold">
-            Select Teachers:
-          </label>
-          <div className="space-y-2">
-            {teachersList.map((teacher) => (
-              <div key={teacher} className="flex items-center space-x-2">
-                <input
-                  type="checkbox"
-                  id={teacher}
-                  value={teacher}
-                  checked={selectedTeachers.includes(teacher)}
-                  onChange={() => handleTeacherSelection(teacher)}
-                  className="form-checkbox h-5 w-5 text-blue-600"
-                />
-                <label htmlFor={teacher} className="text-gray-700">
-                  {teacher}
-                </label>
-              </div>
-            ))}
-          </div>
         </div>
 
         {/* Submit Button */}
